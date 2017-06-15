@@ -6,9 +6,11 @@ function [ w, F, S ] = OnlineFeat(X, y, mf)
     w = zeros(p, 1);
     F = 1;
     F = F';
+    S = 1:n;
     
     for i = 2:p
-        [w, F] = FeatSelect(X, y, w, mf, F, i);
+        [w, F] = FeatSelect(X(:,S), y(S), w, mf, F, i);
+        %[w, F] = FeatSelect(X, y, w, mf, F, i);
         [w_f, S] = SingleHR(X(F,:), y);
         w(F) = w_f;
     end
@@ -28,6 +30,27 @@ function [ w, F ] = FeatSelect(X, y, w, mf, F, i)
     w(F) = w(F) - grad_w;
     w(i) = -eta*X(i,:)*(1/n)*(u-y);
     F = union(F, i);
+    if size(F,2) > mf
+        [min_val, w_idx] = min(abs(w(F)));
+        min_idx = F(w_idx);
+        w(min_idx) = 0;
+        F = F(F~=min_idx);
+    end
+end
+
+function [ w, F ] = FeatSelect2(X, y, w, mf, F, i)
+
+    n = size(y, 1);
+    eta = 0.1;
+    m = 1;
+    F = union(F, i);
+    
+    %u = X(F,:)'* w(F);
+    %grad_w = (eta/m)*X(F,:)*(1/n)*(u-y);
+
+    w(F) = inv(X(F,:)*X(F,:)')*X(F,:)*y;
+    %w(i) = -eta*X(i,:)*(1/n)*(u-y);
+    
     if size(F,2) > mf
         [min_val, w_idx] = min(abs(w(F)));
         min_idx = F(w_idx);

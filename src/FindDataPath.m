@@ -3,7 +3,7 @@ function [ data_file ] = FindDataPath( p, k, fr, cr, bNoise, idx )
 %   Detailed explanation goes here
     
     %data_path = '~/Dataset/OnlineFeat/';
-    data_path = 'D:/Dataset/OnlineFeat/';    
+    data_path = '../../../../../Dataset/OnlineFeat/';    
     
     str_noise = '';
     if ~bNoise

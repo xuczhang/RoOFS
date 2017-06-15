@@ -3,11 +3,11 @@
 % bNoise represents the dense noise or not
 
 % generate the single data
-k = 8;
-p = 2000;
+k = 4;
+p = 400;
 cr = 0.1;
 fr = 0.2;
-bNoise = 0;
+bNoise = 1;
 DataSampling( p, k, fr, cr, bNoise, 1);
 
 % generate the data per different corruption ratio

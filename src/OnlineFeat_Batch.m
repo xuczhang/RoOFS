@@ -6,10 +6,12 @@ function [ w, F, S ] = OnlineFeat_Batch(X, y, mf, batch_num)
     w = zeros(p, 1);
     F = 1:batch_num;
     F = F';
+    S = 1:n;
     
     for i = 2:p/batch_num
         Fn = batch_num*(i-1)+1 : batch_num*i;
-        [w, F] = FeatSelect(X, y, w, mf, F, Fn, batch_num);
+        %[w, F] = FeatSelect(X(:,S), y(S), w, mf, F, i);
+        [w, F] = FeatSelect(X(:,S), y(S), w, mf, F, Fn, batch_num);
         [w_f, S] = SingleHR(X(F,:), y);
         w(F) = w_f;
     end
@@ -19,9 +21,7 @@ function [ w, F, S ] = OnlineFeat_Batch(X, y, mf, batch_num)
 end
 
 function [ w, F ] = FeatSelect(X, y, w, mf, F, Fn, batch_num)
-    XF = X(F,:);
-    wF = w(F);
-    b = 5;
+
     n = size(y, 1);
     eta = 0.1;
     m = 1;

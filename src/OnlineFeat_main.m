@@ -1,11 +1,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Parameters
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-p = 2000;
-k = 8;
+p = 400;
+k = 4;
 fr = 0.2;
 cr = 0.1;
-bNoise = 0;
+bNoise = 1;
 idx = 1;
 
 
@@ -13,7 +13,7 @@ n = 1000*k;
 n_o = int16(cr*n);
 
 if bNoise == 1
-    noise_str = ''; 
+    noise_str = '';
 else
     noise_str = 'nn_';
 end
@@ -26,8 +26,8 @@ w_truth = data.beta;
 
 %% Test different data sets
 tic;
-[w, F, S] = OnlineFeat_Batch(Xtr, ytr, p*fr, 50);
-%[w, F, S] = OnlineFeat(Xtr, ytr, p*fr);
+%[w, F, S] = OnlineFeat_Batch(Xtr, ytr, p*fr, 20);
+[w, F, S] = OnlineFeat2(Xtr, ytr, p*fr);
 %[w, F, S] = OnlineFeat(Xtr, ytr, 80);
 toc;
 w_truth_norm = norm(w_truth);
